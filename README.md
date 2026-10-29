@@ -25,13 +25,14 @@
 
 1. در [supabase.com](https://supabase.com) یک پروژهٔ رایگان بساز.
 2. **SQL Editor** → محتوای فایل [`setup.sql`](setup.sql) را بچسبان → **Run**.
+   اگر Supabase هشدار RLS داد، **Run without RLS** را بزن؛ خودِ فایل RLS را برای همهٔ جدول‌ها روشن می‌کند.
 3. از **Project Settings → API** دو مقدار را بردار: `Project URL` و کلید `publishable` (یا `anon`).
 
 ### ۲. ورود با Google
 
 1. در [Google Cloud Console](https://console.cloud.google.com/apis/credentials) یک **OAuth client ID** از نوع *Web application* بساز.
    - Authorized redirect URI: `https://<پروژه‌ات>.supabase.co/auth/v1/callback`
-2. در Supabase: **Authentication → Sign In / Providers → Google** را روشن کن و Client ID و Secret را بچسبان.
+2. در Supabase: **Authentication → Sign In / Providers → Google** → کلید **Enable Sign in with Google** را روشن کن (فراموشش نکن!)، Client ID و Secret را بچسبان و **Save** بزن. در فهرست باید «Google · Enabled» ببینی.
 3. در **OAuth consent screen** اپ را **Publish** کن؛ وگرنه فقط کاربرهای تستی می‌توانند وارد شوند.
 
 ### ۳. انتشار — Vercel
@@ -80,8 +81,8 @@
 
 **Self-host in ~15 minutes, on free tiers:**
 
-1. **Supabase**: create a project, run [`setup.sql`](setup.sql) in the SQL Editor, copy the Project URL and publishable/anon key.
-2. **Google sign-in**: create a Web OAuth client (redirect URI `https://<project>.supabase.co/auth/v1/callback`), enable the Google provider in Supabase, and publish the consent screen.
+1. **Supabase**: create a project, run [`setup.sql`](setup.sql) in the SQL Editor (choose *Run without RLS* if warned; the script enables RLS itself), copy the Project URL and publishable/anon key.
+2. **Google sign-in**: create a Web OAuth client (redirect URI `https://<project>.supabase.co/auth/v1/callback`), turn on **Enable Sign in with Google** in Supabase and paste the ID + secret, and publish the consent screen.
 3. **Vercel**: click *Deploy with Vercel* above, set `SUPABASE_URL` and `SUPABASE_ANON_KEY`, then add your site URL to Supabase → Authentication → URL Configuration.
 4. **Sign in**: the first account to sign in becomes admin and gets a starter board. Invite teammates by Gmail from «اعضا».
 5. **Telegram (optional)**: see step 5 above; the env vars are listed in [`.env.example`](.env.example).
