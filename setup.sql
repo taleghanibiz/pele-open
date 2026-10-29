@@ -337,3 +337,6 @@ end $$;
 
 revoke execute on function public.create_team(text, text), public.bootstrap() from public, anon;
 grant execute on function public.create_team(text, text), public.bootstrap() to authenticated;
+
+-- tables made after the revoke in 002 picked up Supabase's default anon grants; RLS already hides rows, this closes the door too
+revoke all on all tables in schema public from anon;
