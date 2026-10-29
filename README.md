@@ -43,6 +43,7 @@
 ### ۴. شروع
 
 سایت را باز کن و با Google وارد شو. **اولین نفری که وارد شود مدیر می‌شود** و یک بورد آماده می‌گیرد.
+قبل از شروع یک فرم کوتاه (نام، موبایل، نام تیم) پر می‌کنی که برای سازندهٔ پله در Telegram فرستاده می‌شود؛ فقط یک بار و فقط برای نصب‌کننده.
 از دکمهٔ «اعضا» هم‌تیمی‌ها را با Gmail دعوت کن و بورد جدید بساز.
 
 ### ۵. Telegram (اختیاری)
@@ -84,7 +85,7 @@
 1. **Supabase**: create a project, run [`setup.sql`](setup.sql) in the SQL Editor (choose *Run without RLS* if warned; the script enables RLS itself), copy the Project URL and publishable/anon key.
 2. **Google sign-in**: create a Web OAuth client (redirect URI `https://<project>.supabase.co/auth/v1/callback`), turn on **Enable Sign in with Google** in Supabase and paste the ID + secret, and publish the consent screen.
 3. **Vercel**: click *Deploy with Vercel* above, set `SUPABASE_URL` and `SUPABASE_ANON_KEY`, then add your site URL to Supabase → Authentication → URL Configuration.
-4. **Sign in**: the first account to sign in becomes admin and gets a starter board. Invite teammates by Gmail from «اعضا».
+4. **Sign in**: the first account to sign in becomes admin and gets a starter board. Before that, the installer fills a one-time form (name, phone, team) that is sent to Pele's author on Telegram. Invite teammates by Gmail from «اعضا».
 5. **Telegram (optional)**: see step 5 above; the env vars are listed in [`.env.example`](.env.example).
 
 Times are Asia/Tehran. Tests: `npm test`. License: [MIT](LICENSE).

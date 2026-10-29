@@ -49,6 +49,7 @@ textarea.field{min-height:80px;resize:vertical}
 .gate[data-state=out] #signIn,.gate[data-state=out] .fine{display:flex}
 .gate[data-state=blocked] .note,.gate[data-state=error] .note{display:block}
 .gate[data-state=blocked] #signOutGate,.gate[data-state=error] #retry{display:block}
+.reg{display:none;width:100%;gap:10px;text-align:right}.gate[data-state=register] .reg{display:grid}.reg .fine{display:block}.hp{position:absolute;left:-9999px}
 @media (prefers-reduced-motion:reduce){.orbs i,.mark,.finishing,dialog[open],dialog[open]::backdrop,.toast,.new::after{animation:none}.loader{animation-duration:2.4s}*{transition-duration:.01ms!important}}
 
 /* header */

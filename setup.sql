@@ -335,8 +335,13 @@ begin
   return true;
 end $$;
 
-revoke execute on function public.create_team(text, text), public.bootstrap() from public, anon;
-grant execute on function public.create_team(text, text), public.bootstrap() to authenticated;
+-- the app shows the installer's contact form only on a fresh install
+create or replace function public.is_fresh() returns boolean language sql stable security definer
+set search_path = public
+as $$ select not exists (select 1 from members) $$;
+
+revoke execute on function public.create_team(text, text), public.bootstrap(), public.is_fresh() from public, anon;
+grant execute on function public.create_team(text, text), public.bootstrap(), public.is_fresh() to authenticated;
 
 -- tables made after the revoke in 002 picked up Supabase's default anon grants; RLS already hides rows, this closes the door too
 revoke all on all tables in schema public from anon;

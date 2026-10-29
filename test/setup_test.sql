@@ -12,7 +12,9 @@ begin if not ok then raise exception 'FAIL: %', msg; end if; end $$;
 
 -- first sign-in owns the install
 select pg_temp.as_user('first@gmail.com');
+select pg_temp.expect(is_fresh(), 'fresh install not fresh');
 select pg_temp.expect(bootstrap(), 'first user not bootstrapped');
+select pg_temp.expect(not is_fresh(), 'still fresh after bootstrap');
 select pg_temp.expect((select is_admin from members where email = 'first@gmail.com'), 'first user not admin');
 select pg_temp.expect((select count(*) from teams) = 1, 'no starter board');
 select pg_temp.expect((select count(*) from columns) = 3, 'starter board columns');

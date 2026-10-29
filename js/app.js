@@ -1,4 +1,4 @@
-import { $, h, fa, store, toast, jFull, jDay, dueState, todayISO, between, faceColor, parseISO, ask, isoDate, addDays, projectTag } from './lib.js';
+import { $, h, fa, store, toast, normPhone, jFull, jDay, dueState, todayISO, between, faceColor, parseISO, ask, isoDate, addDays, projectTag } from './lib.js';
 import { sb, S, q, onLoad, runLoad, isDone, nameOf, teamEmails, matches, filtering, unread, doneCol, PRI, onRender, saveCard, stepsOf } from './state.js';
 import { openCard, openNew, refreshOpenCard, toggleStep } from './card.js';
 import { renderCal } from './calendar.js';
@@ -21,6 +21,19 @@ $('#signIn').onclick = async () => {
   const { error } = await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + location.pathname } });
   if (error) { b.disabled = false; b.querySelector('span').textContent = 'ادامه با گوگل'; toast(error.message); }
 };
+// fresh install: the installer's contact info goes to پله's author on Telegram, then they become admin
+const REGISTER = 'https://pele-seven.vercel.app/api/register';
+$('#reg').onsubmit = async e => {
+  e.preventDefault();
+  const f = Object.fromEntries(new FormData(e.target)), phone = normPhone(f.phone);
+  if (!/^\+\d{10,15}$/.test(phone)) return toast('شماره موبایل نامعتبر است');
+  const btn = e.target.querySelector('button'); btn.disabled = true;
+  const { data: { session } } = await sb.auth.getSession();
+  // ponytail: a failed send never blocks the install; the author just doesn't hear about this one
+  await fetch(REGISTER, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ...f, phone, email: session?.user.email, site: location.origin }) }).catch(() => {});
+  try { await q(sb.rpc('bootstrap')); await boot(); } catch (err) { toast(err.message); } finally { btn.disabled = false; }
+};
 $('#signOut').onclick = $('#signOutGate').onclick = () => sb.auth.signOut();
 $('#retry').onclick = () => { gate('loading'); boot().catch(bootFail); };
 const bootFail = e => gate('error', `اتصال برقرار نشد. اینترنت را بررسی کنید و دوباره تلاش کنید.\n(${e.message})`);
@@ -33,7 +46,7 @@ async function boot() {
   const email = session.user.email.toLowerCase();
   const [me] = await q(sb.from('members').select('*').eq('email', email));
   if (id !== bootId) return;
-  if (!me && await q(sb.rpc('bootstrap'))) return boot(); // first sign-in on a fresh install → admin
+  if (!me && await q(sb.rpc('is_fresh'))) return gate('register'); // installer: contact form first, then bootstrap
   if (!me) return gate('blocked', `حساب \u2066${email}\u2069 هنوز به پله دعوت نشده است. از مدیر بخواهید شما را اضافه کند.`);
   const gname = session.user.user_metadata?.full_name || session.user.user_metadata?.name;
   if (!me.name && gname) { await sb.rpc('claim_name', { n: gname }); me.name = gname.trim().slice(0, 60); }
