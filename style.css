@@ -41,6 +41,8 @@ textarea.field{min-height:80px;resize:vertical}
 .note{white-space:pre-line;width:100%;padding:12px 14px;border-radius:14px;background:rgba(255,181,71,.1);border:1px solid rgba(255,181,71,.3);color:#ffd9a0;line-height:1.9;font-size:14px}
 .fine{color:var(--mut);font-size:12px;margin-top:6px}
 .gate-foot{position:relative;color:var(--mut);font-size:12px;letter-spacing:.5px;opacity:.7}
+.gate-foot a,.credit a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+.credit{text-align:center;color:var(--mut);font-size:12px;opacity:.7;padding:24px 0 8px}
 .loader{width:28px;height:28px;border-radius:50%;border:3px solid var(--chip);border-top-color:var(--acc);animation:spin .8s linear infinite;margin:10px 0}
 @keyframes spin{to{transform:rotate(1turn)}}
 /* one state at a time: loading → out (sign-in) | blocked (not invited / no team) | error (retry) */
